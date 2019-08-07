@@ -1,0 +1,113 @@
+#{extends 'base.html' /} #{set title:'Cadastro de Servidores' /}
+
+<!-- Lista de tags para fazer funcionar a codificação -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<!-- BEGIN PAGE CONTENT-->
+<div class="row">
+	<div class="col-md-12">
+		<div class="tab-content">
+			<div class="tab-pane active" id="tab_0">
+				<div class="portlet box green">
+					<div class="portlet-title">
+						<div class="caption">
+							<i class="fa fa-gift"></i>Cadastro de Servidores
+						</div>
+						<div class="tools">
+							<a href="javascript:;" class="collapse"> </a> <a
+								href="#portlet-config" data-toggle="modal" class="config"> </a>
+							<a href="javascript:;" class="reload"> </a> <a
+								href="javascript:;" class="remove"> </a>
+						</div>
+					</div>
+					<div class="portlet-body form">
+						<!-- BEGIN FORM-->
+						<form action="@{Servidores.salvar()}" class="form-horizontal"
+							method="post" enctype="multipart/form-data">
+							<div class="form-body">
+								<input type="hidden" name="servidor.id" value="${servidor?.id}">
+								<div class="form-group">
+									<label class="col-md-3 control-label">Texto</label>
+									<div class="col-md-4">
+										<input type="text" class="form-control"
+											placeholder="Entre com o texto" readonly="true"> <span
+											class="help-block"> A block of help text. </span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label">Número da
+										Matricula</label>
+									<div class="col-md-4">
+										<div class="input-icon">
+											<i class="fa fa-pencil-square-o"></i> <input type="text"
+												name="servidor.matricula" class="form-control"
+												placeholder="Matricula" value="${servidor?.matricula}">
+										</div>
+									</div>
+								</div>
+								<!-- INICIO FORM PARA A IMAGEM -->
+								<div class="form-group">
+								<label class="col-md-3 control-label">Foto do Servidor</label>
+								<div class="col-md-4">
+								#{if servidor?.foto?.exists()} 
+								<img height="150px" width="150px" src="@{Servidores.fotoServidor(servidor.id)}"><br>
+								<div class="input-group">
+									<div class="form-check">
+										<label class="form-check-label"> <input
+											class="form-check-input" type="checkbox" name="excluirFoto">Excluir Imagem
+										</label>
+									</div>
+								</div>
+								#{/if} <br> <input type="file" value="${servidor?.foto}" name="servidor.foto">
+								</div>
+								</div>
+								<!-- INICIO FORM PARA A IMAGEM -->
+								<div class="form-group">
+									<label class="col-md-3 control-label">Nome do Servidor</label>
+									<div class="col-md-4">
+										<div class="input-group">
+											<span class="input-group-addon"> <i class="fa fa-user"></i>
+											</span> <input type="text" name="servidor.nomeServidor"
+												class="form-control" placeholder="Nome"
+												value="${servidor?.nomeServidor}">
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 control-label">Endereço de Email</label>
+									<div class="col-md-4">
+										<div class="input-group">
+											<span class="input-group-addon"> <i
+												class="fa fa-envelope"></i>
+											</span> <input type="email" name="servidor.email"
+												class="form-control" placeholder="Email Address"
+												value="${servidor?.email}">
+										</div>
+									</div>
+								</div>
+								<div class="form-group last">
+									<label class="col-md-3 control-label">Static Control</label>
+									<div class="col-md-4">
+										<span class="form-control-static"> email@example.com </span>
+									</div>
+								</div>
+							</div>
+							<div class="form-actions">
+								<div class="row">
+									<div class="col-md-offset-3 col-md-9">
+										<button type="submit" class="btn btn-circle blue">Enviar</button>
+										<button type="button" class="btn btn-circle default">Cancel</button>
+									</div>
+								</div>
+							</div>
+						</form>
+						<!-- END FORM-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END PAGE CONTENT-->

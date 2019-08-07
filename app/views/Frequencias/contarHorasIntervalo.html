@@ -1,0 +1,11 @@
+#{extends 'base.html' /} 
+#{set title:'Contar Horas Com Intervalo de Tempo' /}
+
+<!-- Lista de tags para fazer funcionar a codificação -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<h1>Horas de treino do usuário ${f.usuario.nome}: ${horasCalc} hora(s)</h1><br/>
+
+<a class="btn btn-circle red" href="@{Frequencias.listar}">Voltar para lista</a>

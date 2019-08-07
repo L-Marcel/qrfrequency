@@ -1,0 +1,16 @@
+#{extends 'base.html' /} 
+#{set title:'Opcções de Contagem de Hora' /}
+#{set local : 'Opções Hora' /}
+#{set tituloPagina: 'Opções de hora' /}
+
+<!-- Lista de tags para fazer funcionar a codificação -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<h2>Horas do usuário ${usuarioFrequencia.usuario.nome} na atividade.</h2><br/>
+
+<a class="btn btn-circle blue" href="@{Frequencias.contarHoras(usuarioFrequencia.id)}">Somar Horas</a><br/><br/>
+<a class="btn btn-circle blue" href="@{Frequencias.formIntervalo(usuarioFrequencia.id)}">Definir Intervalo de tempo</a><br/><br/>
+
+<a class="btn btn-circle red" href="@{Frequencias.listar}">Voltar para lista</a>

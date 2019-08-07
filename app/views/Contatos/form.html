@@ -1,0 +1,46 @@
+#{extends 'base2.html' /}
+#{set title:'Enviar Email' /}
+#{set local : 'Enviar Email' /}
+#{set tituloPagina: 'Formulário de Envio de Email' /}
+
+<!-- Lista de tags para fazer funcionar a codificação -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<div class="card mb-3">
+	  <div class="card-body">
+          
+		<form action="@{Contatos.enviar}" method="post">
+		   
+			<div class="form-group">
+			   <label for="de">E-mail para:</label>
+			   <input class="form-control #{ifError 'email.para'} is-invalid#{/ifError}" 
+			   id="de" type="text" value="${flash['email.para']}" name="email.para">
+			   #{ifError 'email.para'}
+        	   <div class="invalid-feedback">#{error 'email.para' /}</div>  	   		 
+        	   #{/ifError}
+			</div>
+			
+			<div class="form-group">
+			   <label for="assunto">Assunto:</label>
+			   <input class="form-control #{ifError 'email.assunto'} is-invalid#{/ifError}" 
+			   id="assunto" type="text" value="${flash['email.assunto']}" name="email.assunto">
+			   #{ifError 'email.assunto'}
+        	   <div class="invalid-feedback">#{error 'email.assunto' /}</div>  	   		 
+        	   #{/ifError}
+			</div>
+			
+			<div class="form-group">
+			  <label for="mensagem">Mensagem:</label>
+			  <textarea name="email.mensagem" class="form-control #{ifError 'email.mensagem'} is-invalid#{/ifError}" 
+			  			rows="5" id="mensagem">${flash['email.mensagem']}</textarea>
+			  #{ifError 'email.mensagem'}
+        	  <div class="invalid-feedback">#{error 'email.mensagem' /}</div>  	   		 
+        	  #{/ifError}
+			</div>
+			
+			<input class="btn btn-circle blue" type="submit" value="Enviar">
+		</form>
+	</div>
+</div>

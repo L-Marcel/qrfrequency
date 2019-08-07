@@ -1,0 +1,37 @@
+#{extends 'base2.html' /}
+#{set title:'Justificar faltas' /}
+#{set local : 'Justificar Faltas' /}
+#{set tituloPagina: 'Justificar' /}
+
+<!-- Lista de tags para fazer funcionar a codificação -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<div class="card mb-3">
+	  <div class="card-body">
+          
+		<form action="@{Faltas.registrar(falta.id)}" method="post">
+		   
+			<div class="form-group">
+			   <label for="assunto">Assunto:</label>
+			   <input class="form-control #{ifError 'falta.assunto'} is-invalid#{/ifError}" 
+			   id="assunto" type="text" value="${flash['falta.assunto']}" name="falta.assunto">
+			   #{ifError 'falta.assunto'}
+        	   <div class="invalid-feedback">#{error 'falta.assunto' /}</div>  	   		 
+        	   #{/ifError}
+			</div>
+			
+			<div class="form-group">
+			  <label for="mensagem">Mensagem:</label>
+			  <textarea name="falta.mensagem" class="form-control #{ifError 'falta.mensagem'} is-invalid#{/ifError}" 
+			  			rows="5" id="mensagem">${flash['falta.mensagem']}</textarea>
+				#{ifError 'falta.mensagem'}
+				<div class="invalid-feedback">#{error 'falta.mensagem' /}</div>  	   		 
+        	  #{/ifError}
+			</div>
+			
+			<input class="btn btn-circle blue" type="submit" value="Enviar">
+		</form>
+	</div>
+</div>

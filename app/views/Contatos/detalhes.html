@@ -1,0 +1,27 @@
+#{extends 'base.html' /}
+#{set title:'Detalhes' /}
+
+<!-- Lista de tags para fazer funcionar a codificação -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<div class="card mb-3">
+  	<div class="card-header">
+    	<i class="fa fa-envelope"></i> Detalhes do E-mail</div>
+  	<div class="card-body">		
+  		<b>Envio em:</b> ${email.dataEnvio.format('dd/MM/yyyy hh:mm:ss')}, ${email.dataEnvio.since(true)}<br>
+		<b>De:</b> ${email.de}<br>
+		<b>Para:</b> ${email.para}<br>
+		<b>Assunto:</b> ${email.assunto}<br>
+		<b>Mensagem:</b> <br><br>
+		${email.mensagem}<br><br>
+		
+		<br>
+		<div class="">
+			<a class="btn btn-primary" href="@{Contatos.form}">Enviar novo e-mail</a>
+        </div>
+        <br>
+        <a href="@{Contatos.listar}">Ver todos os E-mails</a>
+	</div>
+</div>

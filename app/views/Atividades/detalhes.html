@@ -1,0 +1,23 @@
+#{extends 'base.html' /} 
+#{set title:'Detalhe da Atividade' /}
+#{set local : 'Detalhes Atividade' /}
+#{set tituloPagina: 'Detalhes Atividade' /}
+
+<center>
+
+#{if atividade.qrCode?.exists()}
+	<img height="300px" width="300px" src="@{Atividades.qrCodeAtividade(atividade.id)}"><br>
+	
+	<button class="print" type="button" class="btn btn-primary" onclick="print()">Imprimir QRCode</button>
+	
+#{/if}
+#{else}
+	<h1>A atividade não possui QR Code Cadastrado</h1>
+	<a href="@{Atividades.gerarQRCodeAtividade(atividade.id)}">Cadastrar QRCode</a>
+#{/else}
+</center>
+
+<h1>${atividade.nome}</h1><br>
+
+<h3>${atividade.descricao}</h3>
+

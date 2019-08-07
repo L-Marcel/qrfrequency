@@ -1,0 +1,7 @@
+# Application dependencies
+
+require:
+    - play
+    - com.google.zxing -> core 2.0
+    - com.google.zxing -> javase 1.7:
+        force: true

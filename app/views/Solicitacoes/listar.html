@@ -1,0 +1,86 @@
+#{extends 'base.html' /} 
+#{set title:'Lista de Solicitações' /}
+#{set local : 'Lista de Solicitações' /}
+#{set tituloPagina: 'Lista de Solicitações' /}
+
+<!-- Lista de tags para fazer funcionar a codificação -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<!-- BEGIN PAGE LEVEL STYLES -->
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/stylesheets/css1/assets/global/plugins/select2/select2.css'}" />
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/stylesheets/css1/assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css'}" />
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/stylesheets/css1/assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css'}" />
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/stylesheets/css1/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css'}" />
+<!-- END PAGE LEVEL STYLES -->
+
+<!-- BEGIN PAGE CONTENT-->
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN EXAMPLE TABLE PORTLET-->
+		<div class="portlet box blue-hoki">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-globe"></i>Lista de Solicitações
+				</div>
+				<div class="tools"></div>
+			</div>
+			<div class="portlet-body">
+				<table class="table table-striped table-bordered table-hover"
+					id="sample_1">
+					<thead>
+						<tr>
+							<th>Atividade</th>
+							<th>Usuário</th>
+							<th>Opções</th>
+						</tr>
+					</thead>
+					<tbody>
+						#{list items:solicitacoes, as: 'slc'}
+						<tr>
+							<td>${slc.atividade.nome}</td>
+							<td>${slc.usuario.nome}</td>
+							#{if slc.confirmado == false}
+								<td> <a href="@{Solicitacoes.cadastrarUsuariuo(slc.id)}" 
+								type="button" class="btn btn-circle btn-success"><i class="fa fa-plus"></i>
+								<font style="vertical-align: inherit;">
+								<font style="vertical-align: inherit;">Confirmar Solicitação</font></font></a></td>
+							#{/if}
+							#{else}
+								<td> <a href="#" 
+								type="button" class="btn btn-circle btn-danger"><i class="fa fa-times"></i>
+								<font style="vertical-align: inherit;">
+								<font style="vertical-align: inherit;">Confirmado</font></font></a></td>
+							#{/else}
+						#{/list}
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- END EXAMPLE TABLE PORTLET-->
+	</div>
+</div>
+<!-- END PAGE CONTENT-->
+
+<script
+	src="{'public/stylesheets/css1/assets/admin/pages/scripts/table-advanced.js'}"></script>
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script type="text/javascript"
+	src="{'public/stylesheets/css1/assets/global/plugins/select2/select2.min.js"></script>
+<script type="text/javascript"
+	src="{'public/stylesheets/css1/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js'}"></script>
+<script type="text/javascript"
+	src="{'public/stylesheets/css1/assets/global/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js'}"></script>
+<script type="text/javascript"
+	src="{'public/stylesheets/css1/assets/global/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js'}"></script>
+<script type="text/javascript"
+	src="{'public/stylesheets/css1/assets/global/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js'}"></script>
+<script type="text/javascript"
+	src="{'public/stylesheets/css1/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js'}"></script>
+<!-- END PAGE LEVEL PLUGINS -->

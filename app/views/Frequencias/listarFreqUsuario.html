@@ -1,0 +1,60 @@
+#{extends 'base2.html' /} 
+#{set title:'Minhas Frequências' /}
+#{set local : 'Lista de Frequência' /}
+#{set tituloPagina: 'Minhas Frequências' /}
+
+<!-- Lista de tags para fazer funcionar a codificação -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<!-- BEGIN PAGE LEVEL STYLES -->
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/stylesheets/css1/assets/global/plugins/select2/select2.css'}" />
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/stylesheets/css1/assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css'}" />
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/stylesheets/css1/assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css'}" />
+<link rel="stylesheet" type="text/css"
+	href="@{'/public/stylesheets/css1/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css'}" />
+<!-- END PAGE LEVEL STYLES -->
+
+<!-- BEGIN PAGE CONTENT-->
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN EXAMPLE TABLE PORTLET-->
+		<div class="portlet box blue-hoki">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-globe"></i>Lista de Frequência
+				</div>
+				<div class="tools"></div>
+			</div>
+			<div class="portlet-body">
+				<table class="table table-striped table-bordered table-hover" id="sample_1">
+					<thead>
+						<tr>
+							<th>DATA</th>
+							<th>HORA</th>
+							<th>TIPO</th>
+							<th>USUÁRIO</th>
+							<th>ATIVIDADE</th>
+						</tr>
+					</thead>
+					<tbody>
+						#{list frequencias, as:'freq'}
+						<tr>
+							<td>${freq.data.format('dd-MM-yyyy')}</td>
+							<td>${freq.hora}</td>
+							<td>${freq.tipoFreq}</td>
+							<td>${freq.usuario.nome}</td>
+							<td>${freq.atividade.nome}</td>
+						</tr>
+						#{/list}			
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END PAGE CONTENT-->

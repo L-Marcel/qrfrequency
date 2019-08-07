@@ -1,0 +1,68 @@
+#{extends 'base.html' /} #{set title:'Cadastro de atividades' /}
+
+<!-- Lista de tags para fazer funcionar a codificação -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<!-- BEGIN PAGE CONTENT-->
+<div class="row">
+	<div class="col-md-12">
+		<div class="tab-content">
+			<div class="tab-pane active" id="tab_0">
+				<div class="portlet box green">
+					<div class="portlet-title">
+						<div class="caption">
+							<i class="fa fa-gift"></i>Intervalo de Tempo
+						</div>
+					</div>
+					<div class="portlet-body form">
+						<!-- BEGIN FORM-->
+						<form action="@{Frequencias.contarHorasIntervalo(pegarData, usuarioFrequencia.id)}" class="form-horizontal"
+							method="post">
+							<div class="form-body">
+							
+							 <input type="hidden" name="pegarData.id"> 
+									
+								<div class="form-group">
+									<label class="col-md-3 control-label">Selecionar Início</label>
+									<div class="col-md-4">
+										<div class="input-icon">
+											<i class="fa fa-pencil-square-o"></i> 
+											<input type="date"
+												name="pegarData.dataInicio" class="form-control"
+												placeholder="Intervalo de Tempo">
+										</div>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-md-3 control-label">Selecionar Fim</label>
+									<div class="col-md-4">
+										<div class="input-icon">
+											<i class="fa fa-pencil-square-o"></i> 
+											<input type="date"
+												name="pegarData.dataFim" class="form-control"
+												placeholder="Intervalo de Tempo">
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<div class="form-actions">
+								<div class="row">
+									<div class="col-md-offset-3 col-md-9">
+										<button type="submit" class="btn btn-circle blue">Enviar</button>
+										<button type="button" class="btn btn-circle default">Cancel</button>
+									</div>
+								</div>
+							</div>
+						</form>
+						<!-- END FORM-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END PAGE CONTENT-->
