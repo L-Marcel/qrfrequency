@@ -2,7 +2,8 @@
 
 require:
     - play 1.4.5
-    #- mysql -> mysql-connector-java 8.0.17   
+    #- mysql -> mysql-connector-java 8.0.17 
+    - org.postgresql -> postgresql 42.2.2  
     - com.google.zxing -> core 2.0
     - com.google.zxing -> javase 1.7:
         force: true
