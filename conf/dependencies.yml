@@ -2,6 +2,6 @@
 
 require:
     - play 1.4.5
-    - com.google.zxing -> core 2.0
-    - com.google.zxing -> javase 1.7:
-        force: true
+    #- com.google.zxing -> core 2.0
+    #- com.google.zxing -> javase 1.7:
+    #    force: true
