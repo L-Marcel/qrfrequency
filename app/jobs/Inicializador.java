@@ -15,7 +15,7 @@ public class Inicializador extends Job {
 			
 			Administrador adm1 = new Administrador();
 			adm1.matricula = "admin";
-			adm1.senha = "admin";
+			adm1.senha = "qvtifpdf";
 			adm1.save();
 		}
 	}
