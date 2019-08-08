@@ -50,4 +50,12 @@ public class Usuario extends GenericModel {
 	@OneToMany(mappedBy="usuario")
 	public List<Falta> faltas;
 	
+	/* (non-Javadoc)
+	 * @see play.db.jpa.JPABase#toString()
+	 */
+	@Override
+	public String toString() {
+		return nome;
+	}
+	
 }

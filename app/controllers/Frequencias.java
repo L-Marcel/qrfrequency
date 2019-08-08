@@ -33,7 +33,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-
 public class Frequencias extends Controller {
 
 	public static void formFrequencia() {
@@ -88,7 +87,7 @@ public class Frequencias extends Controller {
 					"Você está tentando registrar uma " + "frequência fora do horário de funcionamento da atividade!");
 			formFrequencia();
 		}
-		
+
 		frequencia.save();
 		flash.success("Frequência cadastrada com sucesso!");
 		listar();
@@ -208,7 +207,7 @@ public class Frequencias extends Controller {
 	}
 
 	// Correção de erro 27/11/2018
-	public static  void listarFreqUsuario(Long id) {
+	public static void listarFreqUsuario(Long id) {
 		Usuario usuario = Usuario.findById(id);
 		List<Frequencia> frequencias = null;
 		Long idUserAtual = Long.parseLong(session.get("idUsuario"));
@@ -217,18 +216,16 @@ public class Frequencias extends Controller {
 		}
 		render(frequencias);
 	}
-	
-	//Método para retornar as frequências em forma de JSON
-	public static  void listarFreqApp(String matricula) {
+
+	// Método para retornar as frequências em forma de JSON
+	public static void listarFreqApp(String matricula) {
 		Usuario usuario = Usuario.find("matricula = ?", matricula).first();
-		List<Frequencia> frequencias = null;
-		//Long idUserAtual = Long.parseLong(session.get("idUsuario"));
-		if (usuario.matricula == matricula) {
-			frequencias = Frequencia.find("usuario = ?", usuario).fetch();
-		}
-		Gson gson = new Gson();
-		String json = gson.toJson(frequencias);
-		renderJSON(json);
+		System.out.println(usuario.matricula);
+		List<Frequencia> frequencias = Frequencia.find("usuario = ?", usuario).fetch();
+		Gson gson = new GsonBuilder().create();
+		gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+		String result = gson.toJson(frequencias);
+		renderJSON(result);
 	}
 
 	// mod dia 13/10/2018
@@ -255,7 +252,6 @@ public class Frequencias extends Controller {
 		return hora;
 	}
 
-	
 	public static void salvarApp(String idAtividade, String matricula) throws ParseException {
 		Frequencia frequencia = new Frequencia();
 		Atividade atividade = Atividade.find("id = ?", Long.parseLong(idAtividade)).first();
