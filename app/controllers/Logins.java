@@ -29,13 +29,6 @@ public class Logins extends Controller {
 	}
 
 	public static void autenticarSuapApp(String matricula, String senha) {
-		Administrador adm1 = Administrador.find("matricula = ? and senha = ?", matricula, senha).first();
-		if (adm1 != null) {
-			System.out.println("entrou no if");
-			session.put("matriculaAdmin", adm1.matricula);
-			Application.index();
-
-		} else {
 
 			WS.HttpResponse resposta;
 
@@ -79,7 +72,6 @@ public class Logins extends Controller {
 			} else {
 				renderText("0");
 			}
-		}
 	}
 	
 	public static void autenticarSuap(String matricula, String senha) {
