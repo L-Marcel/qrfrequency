@@ -118,7 +118,7 @@ public class Atividades extends Controller {
 
 	public static void gerarQRCodeAtividade(Long id) {
 		Atividade atividade = Atividade.findById(id);
-		String conteudoQRCode = "atividadeID=" + atividade.id;
+		String conteudoQRCode = "" + atividade.id;
 		atividade.qrCode = CreateQR.generateQrCodeBlob(conteudoQRCode);
 		atividade.save();
 		renderTemplate("Atividades/detalhes.html", atividade);
