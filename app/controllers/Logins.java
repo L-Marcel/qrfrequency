@@ -17,12 +17,12 @@ import com.google.gson.Gson;
 public class Logins extends Controller {
 
 	// mod dia 12/10/2018 para quando entrar na página de login e estiver logado
-	@Before(unless = "logout")
-	static void checarAutenticacao() {
-		if (session.get("usuarioEmail") != null) {
-			Application.index();
-		}
-	}
+//	@Before(unless = {"login", "autenticarSuapApp"})
+//	static void checarAutenticacao() {
+//		if (session.get("usuarioEmail") != null) {
+//			Application.index();
+//		}
+//	}
 
 	public static void login() {
 		render();
