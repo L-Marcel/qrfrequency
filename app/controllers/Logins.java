@@ -18,7 +18,7 @@ import com.google.gson.Gson;
 public class Logins extends Controller {
 
 	// mod dia 12/10/2018 para quando entrar na página de login e estiver logado
-	@Before(unless = {"login", "autenticarSuapApp"})
+	@Before(only = {"login"})
 	static void checarAutenticacao() {
 		if (session.get("usuarioEmail") != null) {
 			Application.index();
