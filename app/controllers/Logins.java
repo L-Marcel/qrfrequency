@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import models.Administrador;
 import models.DadosSUAP;
@@ -17,12 +18,12 @@ import com.google.gson.Gson;
 public class Logins extends Controller {
 
 	// mod dia 12/10/2018 para quando entrar na página de login e estiver logado
-//	@Before(unless = {"login", "autenticarSuapApp"})
-//	static void checarAutenticacao() {
-//		if (session.get("usuarioEmail") != null) {
-//			Application.index();
-//		}
-//	}
+	@Before(unless = {"login", "autenticarSuapApp"})
+	static void checarAutenticacao() {
+		if (session.get("usuarioEmail") != null) {
+			Application.index();
+		}
+	}
 
 	public static void login() {
 		render();
@@ -42,6 +43,8 @@ public class Logins extends Controller {
 			resposta = WS.url(urlToken).params(parametros).post();
 
 			if (resposta.success()) {
+				
+				System.out.println(resposta);
 
 				String token = resposta.getJson().getAsJsonObject().get("token").getAsString();
 				Map<String, String> header = new HashMap<String, String>();
@@ -63,12 +66,11 @@ public class Logins extends Controller {
 					usuario.email = dadosSUAP.email;
 					usuario.save();
 				}
-				
-				
-				Gson gson = new Gson();
+							
+				Gson gson = new GsonBuilder().create();
+				gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 				String json = gson.toJson(usuario);
 				renderJSON(json);
-
 			} else {
 				renderText("0");
 			}
