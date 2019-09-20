@@ -19,6 +19,7 @@ import play.mvc.Controller;
 import play.mvc.With;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.Duration;
 import org.joda.time.Hours;
@@ -64,8 +65,10 @@ public class Frequencias extends Controller {
 		Date dt1 = frequencia.hora;
 		Date dt2 = frequencia.atividade.hrAbertura;
 		Date dt3 = frequencia.atividade.hrFechamento;
+	
+		System.out.println(dt1);
 
-		if (dt1.compareTo(dt3) < 0 && dt1.compareTo(dt2) > 0) {
+		if (dt1.compareTo(dt3) <= 0 && dt1.compareTo(dt2) >= 0) {
 			// dt1 < dt3 e dt1 > dt2
 			if (f == null || f.tipoFreq == null) {
 				frequencia.tipoFreq = TipoFreq.ENTRADA;
