@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import models.Atividade;
 import models.Falta;
 import models.Solicitacao;
@@ -14,7 +17,6 @@ import models.Usuario;
 import play.mvc.Controller;
 import play.mvc.With;
 
-@With(Secure.class)
 public class Faltas extends Controller {
 
 	public static void formFaltas() {
@@ -46,7 +48,7 @@ public class Faltas extends Controller {
 				if (usuario == user) {
 					Date dt1 = atividade.hrFechamento;
 					if (dt1.compareTo(dt2) < 0) {
-						Falta falta2 = Falta.find("atividade = ?", atividade).first();
+						Falta falta2 = Falta.find("atividade = ?1", atividade).first();
 
 						Falta falta3 = new Falta();
 						falta3.dataEnvio = pegarData();
@@ -72,8 +74,93 @@ public class Faltas extends Controller {
 				}
 			}
 		}
-		List<Falta> faltas = Falta.find("usuario = ?", user).fetch();
+		List<Falta> faltas = Falta.find("usuario = ?1", user).fetch();
 		render(faltas);
+	}
+	
+	public static void listarPorUsuarioMobile(String id) throws ParseException {
+		Usuario user = Usuario.findById(Long.parseLong(id));
+
+		List<Atividade> atividades = Atividade.findAll();
+		Date dt2 = null;
+
+		try {
+			dt2 = pegarHora();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		for (Atividade atividade : atividades) {
+			ArrayList<Usuario> users = new ArrayList();
+			users.addAll(atividade.usuarios);
+			for (Usuario usuario : users) {
+				if (usuario == user) {
+					Date dt1 = atividade.hrFechamento;
+					if (dt1.compareTo(dt2) < 0) {
+						Falta falta2 = Falta.find("atividade = ?1", atividade).first();
+
+						Falta falta3 = new Falta();
+						falta3.dataEnvio = pegarData();
+
+						if (falta2 == null) {
+							Falta falta = new Falta();
+							falta.usuario = user;
+							falta.atividade = atividade;
+							falta.dataEnvio = pegarData();
+							falta.save();
+						} else {
+							if (falta2.dataEnvio.compareTo(falta3.dataEnvio) > 0) {
+								System.out.println(falta3.dataEnvio + " oooo");
+								System.out.println(falta2.dataEnvio + " zzzzz");
+								Falta falta = new Falta();
+								falta.usuario = user;
+								falta.atividade = atividade;
+								falta.dataEnvio = pegarData();
+								falta.save();
+							}
+						}
+					}
+				}
+			}
+		}
+		List<Falta> faltas = Falta.find("usuario = ?1", user).fetch();
+		String resp = "[";
+		int i = 0;
+		for (Falta x: faltas) {
+			String mensagem = x.mensagem;
+			String _enviado = "Pendente";
+			
+			if(mensagem == null) {
+				mensagem = "";
+			}
+			
+			char[] _str = mensagem.toCharArray();
+			String check = "";
+			for(char c: _str) {
+				if(c == '\n') {
+					check += "\\n";
+				}else {
+					check += c;
+				}
+			}
+			
+			mensagem = check;
+
+			
+			if(!x.enviado) {
+			if(i >= faltas.size()-1) {
+				resp += "{\"id\": \"" + x.id + "\", \"atividade\": \"" + x.atividade.nome + " - " + x.dataEnvio + " [" + _enviado + "]\", \"assunto\": \"" + x.assunto + "\", \"mensagem\": \"" + mensagem + "\"}";
+			}else {
+				resp += "{\"id\": \"" + x.id + "\", \"atividade\": \"" + x.atividade.nome + " - " + x.dataEnvio + " [" + _enviado + "]\", \"assunto\": \"" + x.assunto + "\", \"mensagem\": \"" + mensagem + "\"}, ";
+			}
+			}
+			
+			i++;
+		}
+		resp += "]";
+		
+		renderJSON(resp);
 	}
 
 	public static Date pegarHora() throws ParseException {
@@ -104,11 +191,20 @@ public class Faltas extends Controller {
 	}
 
 	public static void Registrar(Long id) throws ParseException {
+		System.out.println(id + " id");
 		Falta falta = Falta.findById(id);
 		falta.assunto = params.get("falta.assunto");
 		falta.mensagem = params.get("falta.mensagem");
 		falta.enviado = true;
 		falta.save();
 		listarPorUsuario();
+	}
+	public static void RegistrarMobile(String id) throws ParseException {
+		Falta falta = Falta.findById(Long.parseLong(id));
+		falta.assunto = params.get("falta.assunto");
+		falta.mensagem = params.get("falta.mensagem");
+		falta.enviado = true;
+		falta.save();
+		renderText("Sucesso!");
 	}
 }

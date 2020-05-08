@@ -32,16 +32,15 @@ public class Logins extends Controller {
 	public static void autenticarSuapApp(String matricula, String senha) {
 
 			WS.HttpResponse resposta;
-
+			
 			String urlToken = "https://suap.ifrn.edu.br/api/v2/autenticacao/token/";
 			String urlDados = "https://suap.ifrn.edu.br/api/v2/minhas-informacoes/meus-dados/";
 
 			Map<String, Object> parametros = new HashMap<String, Object>();
 			parametros.put("username", matricula);
 			parametros.put("password", senha);
-
 			resposta = WS.url(urlToken).params(parametros).post();
-
+			
 			if (resposta.success()) {
 				
 				System.out.println(resposta);
@@ -55,7 +54,7 @@ public class Logins extends Controller {
 
 				DadosSUAP dadosSUAP = new Gson().fromJson(resposta.getString(), DadosSUAP.class);
 
-				Usuario usuario = Usuario.find("matricula = ?", dadosSUAP.matricula).first();
+				Usuario usuario = Usuario.find("matricula = ?1", dadosSUAP.matricula).first();
 
 				if (usuario == null) {
 					usuario = new Usuario();
@@ -77,7 +76,7 @@ public class Logins extends Controller {
 	}
 	
 	public static void autenticarSuap(String matricula, String senha) {
-		Administrador adm1 = Administrador.find("matricula = ? and senha = ?", matricula, senha).first();
+		Administrador adm1 = Administrador.find("matricula = ?1 and senha = ?2", matricula, senha).first();
 		if (adm1 != null) {
 			System.out.println("entrou no if");
 			session.put("matriculaAdmin", adm1.matricula);
@@ -107,7 +106,7 @@ public class Logins extends Controller {
 
 				DadosSUAP dadosSUAP = new Gson().fromJson(resposta.getString(), DadosSUAP.class);
 
-				Usuario usuario = Usuario.find("matricula = ?", dadosSUAP.matricula).first();
+				Usuario usuario = Usuario.find("matricula = ?1", dadosSUAP.matricula).first();
 
 				if (usuario == null) {
 					usuario = new Usuario();

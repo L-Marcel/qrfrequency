@@ -10,6 +10,7 @@ import org.joda.time.LocalTime;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import QRCode.CreateQR;
 import models.Atividade;
@@ -50,13 +51,12 @@ public class Atividades extends Controller {
 		atividade.hrAbertura = inicio;
 		atividade.hrFechamento = fim;
 		
-		boolean novaAtividade = atividade.id == null;
+
 		atividade.save();
-		if (novaAtividade) {
-			String conteudoQRCode = "" + atividade.id;
-			atividade.qrCode = CreateQR.generateQrCodeBlob(conteudoQRCode);
-			atividade.save();
-		}
+		String conteudoQRCode = "{\"id\": \"" + atividade.id + "\", \"nome\": \"" + atividade.nome +"\", \"entradaMin\": \"" + atividade.hrAbertura.toString().split(" ")[3] + "\", \"entradaMax\": \"" + atividade.hrFechamento.toString().split(" ")[3] + "\"}";
+		atividade.qrCode = CreateQR.generateQrCodeBlob(conteudoQRCode);
+		atividade.save();
+		
 		detalhes(atividade.id);
 	}
 
@@ -69,7 +69,7 @@ public class Atividades extends Controller {
 		//está pegando o usuário
 		Usuario user = Usuario.findById(Long.parseLong(session.get("idUsuario")));
 		ArrayList<Atividade> atvs = new ArrayList();
-		List<Solicitacao> solicitacoes = Solicitacao.find("usuario = ?", user).fetch();
+		List<Solicitacao> solicitacoes = Solicitacao.find("usuario = ?1", user).fetch();
 		
 		for (Solicitacao solicitacao : solicitacoes) {
 			//está pegando a atividade e salvando
@@ -108,18 +108,21 @@ public class Atividades extends Controller {
 		Atividade atividade = Atividade.findById(id);
 		render(atividade);
 	}
-
+	
 	public static void qrCodeAtividade(Long id) {
 		Atividade atividade = Atividade.findById(id);
 		notFoundIfNull(atividade);
 		response.setContentTypeIfNotSet(atividade.qrCode.type());
 		renderBinary(atividade.qrCode.get());
 	}
-
+	
 	public static void gerarQRCodeAtividade(Long id) {
 		Atividade atividade = Atividade.findById(id);
-		String conteudoQRCode = "" + atividade.id;
+		
+		String conteudoQRCode = "{\"id\": \"" + atividade.id + "\", \"nome\": \"" + atividade.nome +"\", \"entradaMin\": \"" + atividade.hrAbertura.toString().split(" ")[3] + "\", \"entradaMax\": \"" + atividade.hrFechamento.toString().split(" ")[3] + "\"}";
+		
 		atividade.qrCode = CreateQR.generateQrCodeBlob(conteudoQRCode);
+		
 		atividade.save();
 		renderTemplate("Atividades/detalhes.html", atividade);
 	}

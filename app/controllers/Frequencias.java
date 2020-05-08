@@ -55,7 +55,7 @@ public class Frequencias extends Controller {
 		frequencia.data = pegarData();
 		frequencia.hora = pegarHora();
 
-		List<Frequencia> frequencia2 = Frequencia.find("usuario = ?", frequencia.usuario).fetch();
+		List<Frequencia> frequencia2 = Frequencia.find("usuario = ?1", frequencia.usuario).fetch();
 		int cont = frequencia2.size();
 
 		if (cont > 0) {
@@ -101,7 +101,7 @@ public class Frequencias extends Controller {
 		int horasCalc = 0;
 		// Salva todas as ocorrências de Frequência com determinado usuário
 		Frequencia f = Frequencia.findById(id);
-		List<Frequencia> frequencias = Frequencia.find("usuario = ?", f.usuario).fetch();
+		List<Frequencia> frequencias = Frequencia.find("usuario = ?1", f.usuario).fetch();
 		int cont = frequencias.size();
 
 		if (cont % 2 == 0) {
@@ -155,7 +155,7 @@ public class Frequencias extends Controller {
 		// Busca no banco frequencias com aquele intervalo de tempo
 		Frequencia f = Frequencia.findById(id);
 		List<Frequencia> frequencias = Frequencia
-				.find("data >= ? and data <= ? and usuario = ?", dateI, dateF, f.usuario).fetch();
+				.find("data >= ?1 and data <= ?2 and usuario = ?3", dateI, dateF, f.usuario).fetch();
 		int cont = frequencias.size();
 
 		int horasCalc = 0;
@@ -215,16 +215,16 @@ public class Frequencias extends Controller {
 		List<Frequencia> frequencias = null;
 		Long idUserAtual = Long.parseLong(session.get("idUsuario"));
 		if (usuario.id == idUserAtual) {
-			frequencias = Frequencia.find("usuario = ?", usuario).fetch();
+			frequencias = Frequencia.find("usuario = ?1", usuario).fetch();
 		}
 		render(frequencias);
 	}
 
 	// Método para retornar as frequências em forma de JSON
 	public static void listarFreqApp(String matricula) {
-		Usuario usuario = Usuario.find("matricula = ?", matricula).first();
+		Usuario usuario = Usuario.find("matricula = ?1", matricula).first();
 		System.out.println(usuario.matricula);
-		List<Frequencia> frequencias = Frequencia.find("usuario = ?", usuario).fetch();
+		List<Frequencia> frequencias = Frequencia.find("usuario = ?1", usuario).fetch();
 		Gson gson = new GsonBuilder().create();
 		gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		String result = gson.toJson(frequencias);
@@ -257,8 +257,8 @@ public class Frequencias extends Controller {
 
 	public static void salvarApp(String idAtividade, String matricula) throws ParseException {
 		Frequencia frequencia = new Frequencia();
-		Atividade atividade = Atividade.find("id = ?", Long.parseLong(idAtividade)).first();
-		Usuario usuario = Usuario.find("matricula = ?", matricula).first();
+		Atividade atividade = Atividade.find("id = ?1", Long.parseLong(idAtividade)).first();
+		Usuario usuario = Usuario.find("matricula = ?1", matricula).first();
 
 		frequencia.atividade = atividade;
 		frequencia.usuario = usuario;
@@ -274,7 +274,7 @@ public class Frequencias extends Controller {
 		frequencia.data = pegarData();
 		frequencia.hora = pegarHora();
 
-		List<Frequencia> frequencia2 = Frequencia.find("usuario = ?", frequencia.usuario).fetch();
+		List<Frequencia> frequencia2 = Frequencia.find("usuario = ?1", frequencia.usuario).fetch();
 		int cont = frequencia2.size();
 
 		if (cont > 0) {
@@ -297,6 +297,49 @@ public class Frequencias extends Controller {
 		}
 		frequencia.save();
 		renderText("true");
+	}
+	
+	public static void salvarAppMobile(String idAtividade, String matricula) throws ParseException {
+		Frequencia frequencia = new Frequencia();
+		Atividade atividade = Atividade.find("id = ?1", Long.parseLong(idAtividade)).first();
+		Usuario usuario = Usuario.find("matricula = ?1", matricula).first();
+
+		frequencia.atividade = atividade;
+		frequencia.usuario = usuario;
+
+		if (frequencia.atividade == null || frequencia.usuario == null) {
+			renderText("Erro ao cadastrar! Existem dependências a serem resolvidas. "
+					+ "Provavelmente recadastramento de outras entidades. Contate um Administrador!");
+		}
+
+		Frequencia f = null;
+
+		frequencia.data = pegarData();
+		frequencia.hora = pegarHora();
+
+		List<Frequencia> frequencia2 = Frequencia.find("usuario = ?1", frequencia.usuario).fetch();
+		int cont = frequencia2.size();
+
+		if (cont > 0) {
+			f = frequencia2.get(cont - 1);
+		}
+
+		if (f == null || f.tipoFreq == null) {
+			frequencia.tipoFreq = TipoFreq.ENTRADA;
+		} else if (f.tipoFreq.equals(TipoFreq.SAIDA)) {
+			frequencia.tipoFreq = TipoFreq.ENTRADA;
+		} else {
+			if (frequencia.data.getDate() != f.data.getDate()) {
+				frequencia.tipoFreq = TipoFreq.ENTRADA;
+			} else {
+				if (f.atividade != frequencia.atividade || f.atividade == null) {
+					renderText("Existente");
+				}
+				frequencia.tipoFreq = TipoFreq.SAIDA;
+			}
+		}
+		frequencia.save();
+		renderText("O registro foi atualizado com sucesso! Tipo: " + frequencia.tipoFreq);
 	}
 
 }
